@@ -1,7 +1,9 @@
-import { Err } from 'src/utility';
+import { forEach } from 'lodash';
+import { Err, report } from 'utility';
 import GC from './GC';
 import './prototypes';
 import Spawner from './spawner';
+import Worker from './worker';
 
 
 const app = {
@@ -20,13 +22,22 @@ const creepLoop = (room) => {
     }
 
     const creepsInRoom = room.creeps();
-    console.log('Creeps in room:', creepsInRoom);
+
+    forEach(creepsInRoom, (creep => {
+        let role = creep.memory.role;
+
+        switch (role) {
+            default:
+                (new Worker(creep)).run();
+                break;
+        }
+    }));
 };
 
 const roomLoop = () => {
     for (const room in Game.rooms) {
-        spawnLoop(room);
-        creepLoop(room);
+        spawnLoop(Game.rooms[room]);
+        creepLoop(Game.rooms[room]);
     }
 };
 
@@ -35,24 +46,21 @@ const spawnLoop = (room) => {
     const spawns = room.find(FIND_MY_SPAWNS);
 
     for (const spawn in spawns) {
-        if (!(spawn instanceof StructureSpawn)) {
+        if (!(spawns[spawn] instanceof StructureSpawn)) {
             throw new Error('spawnLoop(): spawn must be an instance of StructureSpawn');
         }
 
-        if (!app.spawners[spawn.name]) {
-            app.spawners[spawn.name] = new Spawner(spawn);
+        if (!app.spawners[spawn]) {
+            app.spawners[spawn] = new Spawner(spawns[spawn]);
         }
     }
 
     for (const spawner in app.spawners) {
-        if (!(spawner instanceof Spawner)) {
+        if (!(app.spawners[spawner] instanceof Spawner)) {
             throw new Err('spawnLoop()', 'spawner must be instance of Spawner');
         }
 
-        spawner.run();
+        app.spawners[spawner].run();
     }
-
-    // see if i have enough energy
-    // spawn the creep
 };
 

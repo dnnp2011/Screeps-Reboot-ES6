@@ -1,13 +1,13 @@
 {
     "env": {
         "es6": true,
-        "browser" : true,
-        "node" : true
+        "browser": true,
+        "node": true
     },
     "ecmaFeatures": {
         "modules": true,
-        "spread" : true,
-        "restParams" : true,
+        "spread": true,
+        "restParams": true,
         "experimentalObjectRestSpread": true
     },
     "extends": "eslint:recommended",
@@ -45,7 +45,7 @@
             }
         ],
         "block-scoped-var": "warn",
-        "consistent-return": "error",
+        "consistent-return": "off",
         "curly": "off",
         "default-case": "warn",
         // the dot goes with the property when doing multiline
@@ -237,7 +237,7 @@
             "self"
         ],
         "eol-last": "warn",
-        "func-names": "warn",
+        "func-names": "off",
         "func-style": "off",
         "id-length": [
             "warn",
@@ -249,7 +249,9 @@
         "indent": [
             "warn",
             4,
-            { "SwitchCase": 1 }
+            {
+                "SwitchCase": 1
+            }
         ],
         "jsx-quotes": [
             "warn",
