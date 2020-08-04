@@ -3,3 +3,4 @@ gulpfile.js
 screeps.json
 dist/*
 .idea
+**/.DS_Store
