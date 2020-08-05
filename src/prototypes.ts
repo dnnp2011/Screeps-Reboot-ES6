@@ -1,7 +1,9 @@
-import { ADJACENT, ROLE } from 'constants';
+import { ADJACENT, ROLE } from './constants';
 import { forEach } from 'lodash';
-import Worker from 'worker';
+import Worker from './worker';
 import { report } from './utility';
+import './interfaces';
+
 
 // NOTE: Prototype functions must be ES5 format
 Room.prototype.creeps = function() {
@@ -16,10 +18,10 @@ Room.prototype.creeps = function() {
 };
 
 Creep.prototype.work = function() {
-    let role = this.memory.role;
+    const role = this.memory.role;
 
     switch (role) {
-        case ROLE[WORKER]:
+        case ROLE.WORKER:
             (new Worker(this)).run();
             break;
         default:
@@ -32,10 +34,10 @@ RoomPosition.prototype.countAdjacentOpenTiles = function() {
     let openTileCount = 8;
 
     forEach(ADJACENT, (pos => {
-        let objects = (new RoomPosition(this.x + pos.x, this.y + pos.y, this.roomName)).look();
+        const objects = (new RoomPosition(this.x + pos.x, this.y + pos.y, this.roomName)).look();
 
         objects.map(object => {
-            let type = object.type;
+            const type = object.type;
 
             switch (type) {
                 case LOOK_CREEPS:
@@ -47,9 +49,11 @@ RoomPosition.prototype.countAdjacentOpenTiles = function() {
                     }
                     break;
                 case LOOK_STRUCTURES:
-                    if (object.structure === STRUCTURE_WALL) {
+                    if (object.structure.structureType === STRUCTURE_WALL) {
                         openTileCount--;
                     }
+                    break;
+                default:
                     break;
             }
         });

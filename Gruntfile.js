@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = function(grunt) {
     const env = 'sim';
     const options = (require('./screeps'))[env];

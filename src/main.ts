@@ -1,22 +1,23 @@
 import { forEach } from 'lodash';
-import { Err, report } from 'utility';
+import { Err, report } from './utility';
 import GC from './GC';
-import './prototypes';
 import Spawner from './spawner';
 import Worker from './worker';
+import './prototypes';
 
 
 const app = {
     spawners: {},
 };
 
-export const loop = () => {
+export function loop(): void {
     GC.run();
 
     roomLoop();
-};
+}
 
-const creepLoop = (room) => {
+
+function creepLoop(room): void {
     if (!(room instanceof Room)) {
         throw new Error('creepLoop(): room should be an instance of Room');
     }
@@ -24,7 +25,7 @@ const creepLoop = (room) => {
     const creepsInRoom = room.creeps();
 
     forEach(creepsInRoom, (creep => {
-        let role = creep.memory.role;
+        const role = creep.memory.role;
 
         switch (role) {
             default:
@@ -32,16 +33,16 @@ const creepLoop = (room) => {
                 break;
         }
     }));
-};
+}
 
-const roomLoop = () => {
+function roomLoop(): void {
     for (const room in Game.rooms) {
         spawnLoop(Game.rooms[room]);
         creepLoop(Game.rooms[room]);
     }
-};
+}
 
-const spawnLoop = (room) => {
+function spawnLoop(room): void {
     // figure out what this room needs
     const spawns = room.find(FIND_MY_SPAWNS);
 
@@ -62,5 +63,4 @@ const spawnLoop = (room) => {
 
         app.spawners[spawner].run();
     }
-};
-
+}

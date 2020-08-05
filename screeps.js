@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { readdirSync, readFileSync } = require('fs');
 const { dirname, extname, join } = require('path');
 const { ScreepsAPI } = require('screeps-api');
@@ -29,8 +30,7 @@ function runUpload(api, branch, code) {
         let branches = data.list.map((b) => b.branch);
         if (branches.includes(branch)) {
             api.code.set(branch, code);
-        }
-        else {
+        } else {
             api.raw.user.cloneBranch('', branch, code);
         }
     });
@@ -39,8 +39,7 @@ function runUpload(api, branch, code) {
 function uploadSource(config, options) {
     if (!config) {
         console.log('screeps() needs a config e.g. screeps({configFile: \'./screeps.json\'}) or screeps({config: { ... }})');
-    }
-    else {
+    } else {
         if (typeof config === 'string') {
             config = loadConfigFile(config);
         }
@@ -51,8 +50,7 @@ function uploadSource(config, options) {
             api.auth().then(() => {
                 runUpload(api, branch, code);
             });
-        }
-        else {
+        } else {
             runUpload(api, branch, code);
         }
     }
@@ -102,8 +100,7 @@ function getFileList(outputFile) {
     files.map((file) => {
         if (file.endsWith('.js')) {
             code[file.replace(/\.js$/i, '')] = readFileSync(join(base, file), 'utf8');
-        }
-        else {
+        } else {
             code[file] = {
                 binary: readFileSync(join(base, file)).toString('base64'),
             };
@@ -115,8 +112,7 @@ function getFileList(outputFile) {
 function getBranchName(branch$1) {
     if (branch$1 === 'auto') {
         return branch();
-    }
-    else {
+    } else {
         return branch$1;
     }
 }

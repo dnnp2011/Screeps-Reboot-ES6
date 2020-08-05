@@ -1,28 +1,20 @@
 import { MAX_CREEPS, ROLE } from './constants';
 import { calcBodyCost, Err, report } from './utility';
+import './prototypes';
 
-
-class Spawner {
-    spawn;
-
-    room;
-
+export default class Spawner {
+    spawn : StructureSpawn;
+    room : Room;
     limits = {
         maxCreeps: MAX_CREEPS,
     };
 
-    constructor(spawn) {
-        if (!(spawn instanceof StructureSpawn)) {
-            throw new Error('Spawner(): spawn should be an instance of StructureSpawn');
-        } else if (!(spawn.room instanceof Room)) {
-            throw new Error('Spawner() room should be an instance of Room');
-        }
-
+    constructor(spawn : StructureSpawn) {
         this.spawn = spawn;
         this.room = spawn.room;
     }
 
-    run() {
+    public run() : void {
         try {
             // TODO: Implement Role assignment logic
             this.spawnCreep(ROLE.WORKER);
@@ -31,23 +23,19 @@ class Spawner {
         }
     }
 
-    spawnCreep(role = ROLE.WORKER) {
-        if (!(this.spawn instanceof StructureSpawn)) {
-            throw new Err('Spawner.spawnCreep()', 'this.spawn should be an instance of StructureSpawn');
-        }
-
-        let body = this.buildCreepBody(this.room.energyAvailable);
+    protected spawnCreep(role = ROLE.WORKER): void {
+        const body = this.buildCreepBody(this.room.energyAvailable, role);
 
         if (this.canSpawnCreep(body)) {
             // TODO: Update this to use the new spawnCreep method instead
 
-            this.echo('building creep', body);
-            this.spawn.createCreep(body, null, { role });
+            this.echo('building creep', body.toString());
+            this.spawn.createCreep(body as BodyPartConstant[], null, { role });
         }
     }
 
-    canSpawnCreep(body) {
-        console.log('canSpawn body: ', body);
+    protected canSpawnCreep(body: string[]): boolean {
+        console.log('canSpawn body: ', body.toString());
 
         const availableEnergy = this.room.energyAvailable;
         const energyCost = calcBodyCost(body);
@@ -60,7 +48,7 @@ class Spawner {
 
             canSpawn = false;
         } else if (availableEnergy < energyCost) {
-            this.echo('not enough energy.', { availableEnergy, energyCost });
+            this.echo('not enough energy.', ({ availableEnergy, energyCost }).toString());
 
             canSpawn = false;
         } else if (creepCount >= this.limits.maxCreeps) {
@@ -72,7 +60,7 @@ class Spawner {
         return canSpawn;
     }
 
-    buildCreepBody(availableEnergy, role) {
+    protected buildCreepBody(availableEnergy: number, role: string): string[] {
         let baseBody = [ WORK, MOVE, CARRY ];
 
         switch (role) {
@@ -87,7 +75,7 @@ class Spawner {
         return this.optimizeParts(availableEnergy, baseBody);
     }
 
-    optimizeParts(availableEnergy, baseBody) {
+    protected optimizeParts(availableEnergy : number, baseBody : string[]): string[] {
         // TODO: Needs to have a minimum body of baseBody
 
         const body = [];
@@ -100,15 +88,12 @@ class Spawner {
             }
         });
 
-        return body.sort((a, b) => a < b);
+        return body.sort();
     }
 
-    echo(message, data = '') {
+    private echo(message: string, data: any = null): void {
         const output = `Spawner (${ this.spawn.name }): ${ message }.`;
 
         console.log(output, data);
     }
 }
-
-
-export default Spawner;

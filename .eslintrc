@@ -10,11 +10,14 @@
         "restParams": true,
         "experimentalObjectRestSpread": true
     },
-    "extends": "eslint:recommended",
+    "parser": "@typescript-eslint/parser",
     "plugins": [
+        "@typescript-eslint",
         "eslint-plugin-import"
     ],
-    "parser": "babel-eslint",
+    "extends": [
+        "plugin:@typescript-eslint/recommended"
+    ],
     "parserOptions": {
         "sourceType": "module"
     },
@@ -381,6 +384,9 @@
             "always"
         ],
         "wrap-regex": "warn",
-        "no-fallthrough": "off"
+        "no-fallthrough": "off",
+//        Typescript
+        "@typescript-eslint/no-empty-function": "warn",
+        "@typescript-eslint/no-explicit-any": "off"
     }
 }
