@@ -6,8 +6,8 @@
     "scripts": {
         "purge-dist": "node -e \"require('fs-extra').emptyDir('dist');\"",
         "purge": "rm -rf dist",
-        "watch": "npm run purge && babel src -w -d dist --extensions=\".ts,.js\"",
-        "build": "npm run purge && babel src -d dist --extensions=\".ts,.js\"",
+        "watch": "npm run purge-dist && babel src -w -d dist --extensions=\".ts,.js\"",
+        "build": "npm run purge-dist && babel src -d dist --extensions=\".ts,.js\"",
         "push-sim": "npm run build && node screeps.js sim",
         "push-main": "npm run build && node screeps.js main",
         "push": "npm run build && node screeps.js sim && node screeps.js main"

@@ -4,7 +4,7 @@ import { GC_INTERVAL } from './constants';
 class GarbageCollector {
     runFrequency = GC_INTERVAL;
 
-    private purgeCreeps(): void {
+    private static purgeCreeps(): void {
         // Automatically delete memory of missing creeps
         for (const name in Memory.creeps) {
             if (!(name in Game.creeps)) {
@@ -17,7 +17,7 @@ class GarbageCollector {
         if (this._shouldRun()) {
             console.log(`GarbageCollector running at ${ Game.time }`);
 
-            this.purgeCreeps();
+            GarbageCollector.purgeCreeps();
         }
     }
 

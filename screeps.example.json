@@ -1,4 +1,10 @@
 {
+    "grunt": {
+        "email": "",
+        "token": "",
+        "branch": "",
+        "ptr": false
+    },
     "main": {
         "token": "",
         "protocol": "https",

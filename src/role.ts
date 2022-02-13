@@ -5,7 +5,7 @@ export default abstract class Role {
 
     protected memory : CreepMemory;
 
-    constructor(creep : Creep) {
+    protected constructor(creep : Creep) {
         this.creep = creep;
         this.room = creep.room;
         this.memory = creep.memory;

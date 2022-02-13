@@ -1,5 +1,5 @@
 import { forEach } from 'lodash';
-import { Err, report } from './utility';
+import { Err } from './utility';
 import GC from './GC';
 import Spawner from './spawner';
 import Worker from './worker';
