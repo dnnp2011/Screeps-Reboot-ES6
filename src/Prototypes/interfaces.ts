@@ -1,5 +1,6 @@
-interface Room {
+declare interface Room {
     creeps() : [ Creep ];
+    flags() : [ Flag ];
 }
 
 interface Creep {

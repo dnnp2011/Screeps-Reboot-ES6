@@ -10,10 +10,6 @@ export function calcBodyCost(body : string[]) : number {
     return cost;
 }
 
-export function report(message : string, context : any = null) : void {
-    console.log(message, context.toString());
-}
-
 
 export class Err extends Error {
     constructor(context : string, message : string, data : any = {}) {

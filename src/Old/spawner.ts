@@ -1,5 +1,5 @@
-import { MAX_CREEPS, ROLE } from './constants';
-import { calcBodyCost, Err, report } from './utility';
+import { MAX_CREEPS, ROLE } from '../constants';
+import { calcBodyCost, Err, report } from '../utility';
 import './prototypes';
 
 export default class Spawner {
